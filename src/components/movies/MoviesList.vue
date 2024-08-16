@@ -15,7 +15,7 @@
 import HTTP from "@/api/client-http";
 import { onMounted, ref } from "vue";
 import type { ApiResponse, Movie } from "@/components/model/movie.model";
-import CardMovie from "@/components/movies/CardMovie.vue";
+import CardMovie from "@/components/movies/CardMovies.vue";
 
 const listMovies = ref<Movie[]>([]);
 
