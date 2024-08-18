@@ -17,9 +17,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+<<<<<<< HEAD
 import type { ApiResponse, Movie } from "@/components/model/movie.model.ts";
 import CardMovie from "@/components/movies/CardMovies.vue";
 import { useMoviesStore } from "@/store/movies.store";
+=======
+import type { ApiResponse, Movie } from "@/components/model/movie.model";
+import CardMovie from "@/components/movies/CardMovies.vue";
+>>>>>>> 22b291b75d761ad943a6840a0a378c5825c41e84
 
 const listMovies = ref<Movie[]>([]);
 
