@@ -1,6 +1,5 @@
 <template>
-  <Banner />
-  <MoviesList />
+  <RouterView />
 </template>
 
 <script setup lang="ts">

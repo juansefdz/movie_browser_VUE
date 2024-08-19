@@ -1,52 +1,60 @@
 <template>
-  <div class="containerMovies d-middle p-100">
-    <CardMovie
-      v-for="movie in store.listMovies"
-      v-if="store.listMovies.length > 0"
-      :id="movie.imdbID"
-      :poster="movie.Poster"
-      :title="movie.Title"
-      :year="movie.Year"
-      :type="movie.Type"
-    />
-    <div class="d-middle w-100">
-      <p>no search results found</p>
-    </div>
+  <div class="container-movies d-middle p-100">
+
+     <CardMovie 
+          v-for="movie in store.listMovies"
+          v-if="store.listMovies"
+          :id="movie.imdbID"
+          :poster="movie.Poster"
+          :title="movie.Title"
+          :year="movie.Year"
+          :type="movie.Type"
+     />
+     <div class="container-alert d-middle w-100" v-else>
+          <p>No search results found</p>
+     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-<<<<<<< HEAD
-import type { ApiResponse, Movie } from "@/components/model/movie.model.ts";
-import CardMovie from "@/components/movies/CardMovies.vue";
-import { useMoviesStore } from "@/store/movies.store";
-=======
-import type { ApiResponse, Movie } from "@/components/model/movie.model";
-import CardMovie from "@/components/movies/CardMovies.vue";
->>>>>>> 22b291b75d761ad943a6840a0a378c5825c41e84
+import { onMounted, ref } from 'vue'
 
-const listMovies = ref<Movie[]>([]);
+import CardMovie from "@/components/movies/CardMovies.vue"
+import { useMoviesStore } from "@/store/movies.store"
 
-const store = useMoviesStore();
-onMounted(() => {
-  fetchMovies();
-});
+const store = useMoviesStore()
+onMounted(()=> {
+  console.log('ListMovies mounted')
+  fetchMovies()
+})
 
-const fetchMovies = async () => {
-  await store.getMovies();
-};
+
+
+async function  fetchMovies() {
+await store.getMovies()
+}   
 </script>
 
-<style lang="scss" scoped>
-.containerMovies {
-  display: flex;
+<style scoped lang="scss">
+.container-movies {
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 20px
+}
+.container-alert{
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+  
+  
+
 }
 
-p {
-  font-size: 20px;
+p{
   color: $white;
 }
-</style>
+</style>    

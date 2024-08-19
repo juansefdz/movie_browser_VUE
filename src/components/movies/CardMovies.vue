@@ -10,7 +10,7 @@
       <span>Tipo:</span>
       {{ props.type }}
     </p>
-    <a href="#">Ver detalles</a>
+    <RouterLink :to ="{name:'movie-details', params:{id:props.id}}">More Details</RouterLink>
   </div>
 </template>
 
