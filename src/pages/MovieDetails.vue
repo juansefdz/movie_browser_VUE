@@ -1,71 +1,89 @@
 <template>
-  <div class="movie-details-container">
+  <div class="movie-details-container" v-if="movie">
     <button class="button-home">HOME</button>
-    <div class="pic-container">
-      <img :src="props.poster" :alt="props.title" />
-    </div>
-    <div class="movies-details">
-      <h1>MOVIE DETAILS {{ movieId }}</h1>
-      <h1>{{ props.title }}</h1>
-      <p>
-        <span>Year:</span>
-        {{ props.year }}
-      </p>
-      <p>
-        <span>released:</span>
-        {{ props.released }}
-      </p>
-      <p>
-        <span>Director:</span>
-        {{ props.director }}
-      </p>
-      <p>
-        <span>Actors:</span>
-        {{ props.Actors }}
-      </p>
-      <p>
-        <span>Language:</span>
-        {{ props.language }}
-      </p>
-      <p>
-        <span>Awards:</span>
-        {{ props.Awards }}
-      </p>
-      <p>
-        <span>Metascore:</span>
-        {{ props.Metascore }}
-      </p>
-      <p>
-        <span>IMDb rating:</span>
-        {{ props.imdbRating }}
-      </p>
+    <div class="movies-container">
+      <div class="pic-container">
+        <img :src="movie.Poster" :alt="movie.Title" />
+      </div>
+      <div class="movies-details">
+        <h1>{{ movie.Title }}</h1>
+        <p>
+          <span>Year:</span>
+          {{ movie.Year }}
+        </p>
+        <p>
+          <span>Released:</span>
+          {{ movie.Released }}
+        </p>
+        <p>
+          <span>Director:</span>
+          {{ movie.Director }}
+        </p>
+        <p>
+          <span>Actors:</span>
+          {{ movie.Actors }}
+        </p>
+        <p>
+          <span>Language:</span>
+          {{ movie.Language }}
+        </p>
+        <p>
+          <span>Awards:</span>
+          {{ movie.Awards }}
+        </p>
+        <p>
+          <span>Metascore:</span>
+          {{ movie.Metascore }}
+        </p>
+        <p>
+          <span>IMDb Rating:</span>
+          {{ movie.imdbRating }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import api from "@/api/client-http";
 const route = useRoute();
-const movieId = route.params.id;
+const movieId = route.params.id as string;
 
-interface IProps {
-  title: string;
-  poster: string;
-  year: string;
-  released: string;
-  director: string;
-  Actors: string;
-  language: string;
-  Awards: string;
-  Metascore: string;
-  imdbRating: string;
-}
+const movie = ref<any>(null);
 
-const props = defineProps<IProps>();
+const fetchMovieData = async () => {
+  try {
+    const response = await api.get("", {
+      params: {
+        i: movieId,
+      },
+    });
+    movie.value = response.data;
+  } catch (error) {
+    console.error("Error fetching movie data:", error);
+  }
+};
+
+onMounted(() => {
+  fetchMovieData();
+});
 </script>
+
 <style lang="scss" scoped>
+.movies-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
 .button-home {
-  position: absolute; /* Cambio a absolute para mejorar la posición */
+  position: absolute;
   top: 20px;
   left: 20px;
   background-color: $primary;
@@ -93,7 +111,7 @@ const props = defineProps<IProps>();
   .pic-container {
     width: 40%;
     height: 100%;
-    background-color: rgba(16, 15, 15, 0.2);
+    backdrop-filter: blur(5px);
     border: 2px solid $primary;
     border-radius: 10px;
     box-shadow: 0 0 10px 5px $primary;
@@ -103,14 +121,18 @@ const props = defineProps<IProps>();
 
     img {
       max-width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
+      border: solid 1px #e3e3e381;
+      box-shadow: 5px 7px 25px 2px $white;
+    
     }
   }
 
   .movies-details {
     width: 50%;
     height: 100%;
-    background-color: rgba(16, 15, 15, 0.2);
+
+    backdrop-filter: blur(5px);
     border: 2px solid $primary;
     border-radius: 10px;
     box-shadow: 0 0 10px 5px $primary;
@@ -121,12 +143,19 @@ const props = defineProps<IProps>();
     padding: 20px;
     text-align: center;
     overflow-y: auto;
-    .p {
-      color: $white;
-      span {
-        color: $primary;
-        font-weight: bold;
-      }
+  }
+  h1 {
+    color: $white;
+    font-size: 2rem;
+    margin: 10px;
+  }
+  p {
+    color: $white;
+    font-size: 1.5rem;
+    margin: 5px;
+    span {
+      color: $primary;
+      font-weight: bold;
     }
   }
 }
