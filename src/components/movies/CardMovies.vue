@@ -3,11 +3,11 @@
     <h3 class="titleCard">{{ props.title }}</h3>
     <img :src="props.poster" :alt="props.title" />
     <p>
-      <span>Año:</span>
+      <span>Year:</span>
       {{ props.year }}
     </p>
     <p>
-      <span>Tipo:</span>
+      <span>Type:</span>
       {{ props.type }}
     </p>
     <RouterLink :to ="{name:'movie-details', params:{id:props.id}}">More Details</RouterLink>
